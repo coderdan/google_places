@@ -105,8 +105,8 @@ module GooglePlaces
     # @option options [Object] :retry_options[:status] ([])
     # @option options [Integer] :retry_options[:max] (0) the maximum retries
     # @option options [Integer] :retry_options[:delay] (5) the delay between each retry in seconds
-    def spot(place_id, options = {})
-      Spot.find(place_id, @api_key, @options.merge(options))
+    def spot(options = {})
+      Spot.find({key: @api_key}.merge(@options.merge(options)))
     end
 
     # Search for Spots with a query

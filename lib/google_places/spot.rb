@@ -242,20 +242,11 @@ module GooglePlaces
     # @option options [Object] :retry_options[:status] ([])
     # @option options [Integer] :retry_options[:max] (0) the maximum retries
     # @option options [Integer] :retry_options[:delay] (5) the delay between each retry in seconds
-    def self.find(place_id, api_key, options = {})
-      language  = options.delete(:language)
-      retry_options = options.delete(:retry_options) || {}
+    def self.find(options = {})
       extensions = options.delete(:review_summary) ? 'review_summary' : nil
+      response = Request.spot(options.merge(extensions: extensions))
 
-      response = Request.spot(
-        :placeid => place_id,
-        :key => api_key,
-        :language => language,
-        :extensions => extensions,
-        :retry_options => retry_options
-      )
-
-      self.new(response['result'], api_key)
+      self.new(response['result'], options[:key])
     end
 
     # Search for Spots with a pagetoken
